@@ -1,0 +1,81 @@
+# Sample workflow for building and deploying a Jekyll site to GitHub Pages
+name: Deploy GitHub Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v2        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 7.0.x
+      - name: Install .NET WASM Build Tools
+        run: dotnet workload install wasm-tools
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build -c Release --no-restore
+      - name: Test
+        run: dotnet test -c Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --logger trx --results-directory coverage
+      - name: Code Coverage Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: coverage/**/coverage.cobertura.xml
+          badge: true
+          fail_below_min: true
+          format: markdown
+          hide_branch_rate: false
+          hide_complexity: false
+          indicators: true
+          output: both
+          thresholds: '20 80'
+      - name: Publish
+        run: dotnet publish --verbosity normal -c Release -o ./_site --nologo
+      - name: Rewrite base href
+        uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
+        with:
+          html_path: ./_site/wwwroot/index.html
+          base_href: /weight-plate-barbell-racking-calculator/
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+            path: ./_site/wwwroot
+      - name: Updating Job Summary
+        if: ${{ always() }}
+        run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY      
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
