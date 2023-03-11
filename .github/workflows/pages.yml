@@ -55,6 +55,11 @@ jobs:
           thresholds: '20 80'
       - name: Publish
         run: dotnet publish --verbosity normal -c Release -o ./_site --nologo
+      - name: Rewrite base href
+        uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
+        with:
+          html_path: ./_site/wwwroot/index.html
+          base_href: /weight-plate-barbell-racking-calculator/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
