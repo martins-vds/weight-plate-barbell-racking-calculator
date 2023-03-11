@@ -1,0 +1,27 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<MudGrid>
+    <MudItem xs="12">
+        <MudNumericField @bind-Value="Weight" Label="Weight" Variant="Variant.Text" Adornment="Adornment.End" AdornmentText="Lb" Min="0.0" />
+    </MudItem>
+    <MudItem xs="12">
+        <MudSlider @bind-Value="@Percentage" Min="0.1" Max="1" Step="0.1" TickMarks="true" TickMarkLabels="PercentageLabels">
+            Percentage
+        </MudSlider>
+    </MudItem>
+    <MudItem xs="12">
+        <MudNumericField @bind-Value="BarWeight" Label="Bar Weight" Variant="Variant.Text" Adornment="Adornment.End" AdornmentText="Lb" Min="0.0" />
+    </MudItem>
+    <MudItem xs="12">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Calculate Plates</MudButton>
+    </MudItem>
+</MudGrid>
+
+@code{
+    public double Weight { get; set; }
+    public double Percentage { get; set; }
+    private readonly string[] PercentageLabels = new string[] { "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%" };
+    public double BarWeight { get; set; }
+}
