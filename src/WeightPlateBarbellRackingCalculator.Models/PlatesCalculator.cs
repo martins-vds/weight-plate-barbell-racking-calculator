@@ -18,12 +18,12 @@ public class PlatesCalculator
     {
     }
 
-    public RackPlates Calculate(double totalWeight, double barWeight)
+    public RackPlates Calculate(double totalWeight, double barWeight, double weightPercentage = FULL_WEIGHT_PERCENTAGE)
     {
-        return Calculate(totalWeight, barWeight, _allPlatesAvaiable);
+        return Calculate(totalWeight, barWeight, _allPlatesAvaiable, weightPercentage);
     }
 
-    public RackPlates Calculate(double totalWeight, double barWeight, IEnumerable<Plate> plates, double weightPercentage = FULL_WEIGHT_PERCENTAGE, double rounding = NO_ROUNDING)
+    public RackPlates Calculate(double totalWeight, double barWeight, IEnumerable<Plate> plates, double weightPercentage, double rounding = NO_ROUNDING)
     {
         IEnumerable<Plate> availablePlates;
 

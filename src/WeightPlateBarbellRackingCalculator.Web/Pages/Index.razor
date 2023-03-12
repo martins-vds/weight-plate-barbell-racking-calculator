@@ -45,6 +45,6 @@
 
     private void CalculatePlates()
     {
-        RackPlates = calculator.Calculate(Weight, BarWeight);
+        RackPlates = calculator.Calculate(Weight, BarWeight, weightPercentage: Percentage);
     }
 }
