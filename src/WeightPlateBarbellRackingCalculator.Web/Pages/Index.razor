@@ -1,5 +1,4 @@
 ﻿@page "/"
-
 <PageTitle>Index</PageTitle>
 
 <MudGrid>
@@ -15,8 +14,24 @@
         <MudNumericField @bind-Value="BarWeight" Label="Bar Weight" Variant="Variant.Text" Adornment="Adornment.End" AdornmentText="Lb" Min="0.0" />
     </MudItem>
     <MudItem xs="12">
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true">Calculate Plates</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" OnClick="CalculatePlates">Calculate Plates</MudButton>
     </MudItem>
+    @if(RackPlates is not null)
+    {
+        <MudItem xs="12">
+            <MudText Typo="Typo.h6" Class="ml-3">Plates</MudText>
+            <MudTable Items="RackPlates?.Plates">
+                <HeaderContent>
+                    <MudTh>Weight</MudTh>
+                    <MudTh>Amount (Each side)</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Weight">@context.Weight</MudTd>
+                    <MudTd DataLabel="Amount">@context.Quantity</MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudItem>
+    }
 </MudGrid>
 
 @code{
@@ -24,4 +39,12 @@
     public double Percentage { get; set; }
     private readonly string[] PercentageLabels = new string[] { "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%" };
     public double BarWeight { get; set; }
+    public RackPlates? RackPlates { get; set; }
+
+    private PlatesCalculator calculator = new PlatesCalculator();
+
+    private void CalculatePlates()
+    {
+        RackPlates = calculator.Calculate(Weight, BarWeight);
+    }
 }

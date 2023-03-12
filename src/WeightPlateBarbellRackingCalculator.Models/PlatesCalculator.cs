@@ -18,12 +18,12 @@ public class PlatesCalculator
     {
     }
 
-    public RackPlates Calculate(double totalWeightLb, double barWeightLb)
+    public RackPlates Calculate(double totalWeight, double barWeight)
     {
-        return Calculate(totalWeightLb, barWeightLb, _allPlatesAvaiable);
+        return Calculate(totalWeight, barWeight, _allPlatesAvaiable);
     }
 
-    public RackPlates Calculate(double totalWeightLb, double barWeightLb, IEnumerable<Plate> plates, double weightPercentage = FULL_WEIGHT_PERCENTAGE, double rounding = NO_ROUNDING)
+    public RackPlates Calculate(double totalWeight, double barWeight, IEnumerable<Plate> plates, double weightPercentage = FULL_WEIGHT_PERCENTAGE, double rounding = NO_ROUNDING)
     {
         IEnumerable<Plate> availablePlates;
 
@@ -39,7 +39,7 @@ public class PlatesCalculator
         var percentage = 0 <= weightPercentage && weightPercentage <= FULL_WEIGHT_PERCENTAGE ? weightPercentage : FULL_WEIGHT_PERCENTAGE;
         var roundingMultiple = rounding > NO_ROUNDING ? rounding : NO_ROUNDING;
 
-        var weightLeft = (Math.Round(totalWeightLb * percentage / roundingMultiple) * roundingMultiple - barWeightLb) / 2.0;
+        var weightLeft = (Math.Round(totalWeight * percentage / roundingMultiple) * roundingMultiple - barWeight) / 2.0;
 
         var rackingPlates = new List<Plate>();
 
