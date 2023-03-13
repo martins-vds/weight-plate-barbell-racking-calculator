@@ -2,9 +2,6 @@
 
 public class PlatesCalculator
 {
-    private const int FULL_WEIGHT_PERCENTAGE = 1;
-    private const int NO_ROUNDING = 1;
-
     private readonly IEnumerable<Plate> _allPlatesAvaiable = new List<Plate>()
         {
             new(45),
@@ -18,14 +15,24 @@ public class PlatesCalculator
     {
     }
 
-    public RackPlates Calculate(double totalWeight, double barWeight, double weightPercentage = FULL_WEIGHT_PERCENTAGE)
+    public RackPlates Calculate(CalculationOptions options)
     {
-        return Calculate(totalWeight, barWeight, _allPlatesAvaiable, weightPercentage);
+        return Calculate(options.TotalWeight, options.BarWeight, options.Plates, options.WeightPercentage / 100, options.Rounding);
     }
 
-    public RackPlates Calculate(double totalWeight, double barWeight, IEnumerable<Plate> plates, double weightPercentage, double rounding = NO_ROUNDING)
+    public RackPlates Calculate(double totalWeight, double barWeight, double weightPercentage = PlatesCalculatorConstants.FULL_WEIGHT_PERCENTAGE, double rounding = PlatesCalculatorConstants.NO_ROUNDING)
     {
-        IEnumerable<Plate> availablePlates;
+        return Calculate(totalWeight, barWeight, _allPlatesAvaiable, weightPercentage, rounding);
+    }
+
+    public RackPlates Calculate(double totalWeight, double barWeight, IEnumerable<Plate> plates, double weightPercentage, double rounding)
+    {
+        IEnumerable<Plate> availablePlates;        
+
+        if(totalWeight <= 0 || barWeight <= 0 || totalWeight <= barWeight)
+        {
+            return new RackPlates();
+        }
 
         if (plates?.Any() ?? false)
         {
@@ -36,8 +43,8 @@ public class PlatesCalculator
             availablePlates = _allPlatesAvaiable;
         }
 
-        var percentage = 0 <= weightPercentage && weightPercentage <= FULL_WEIGHT_PERCENTAGE ? weightPercentage : FULL_WEIGHT_PERCENTAGE;
-        var roundingMultiple = rounding > NO_ROUNDING ? rounding : NO_ROUNDING;
+        var percentage = 0 <= weightPercentage && weightPercentage <= PlatesCalculatorConstants.FULL_WEIGHT_PERCENTAGE ? weightPercentage : PlatesCalculatorConstants.FULL_WEIGHT_PERCENTAGE;
+        var roundingMultiple = rounding > PlatesCalculatorConstants.NO_ROUNDING ? rounding : PlatesCalculatorConstants.NO_ROUNDING;
 
         var weightLeft = (Math.Round(totalWeight * percentage / roundingMultiple) * roundingMultiple - barWeight) / 2.0;
 
