@@ -29,7 +29,7 @@ public class PlatesCalculator
     {
         IEnumerable<Plate> availablePlates;        
 
-        if(totalWeight <= 0 || barWeight <= 0 || totalWeight <= barWeight)
+        if(totalWeight < 0 || barWeight < 0 || totalWeight <= barWeight)
         {
             return new RackPlates();
         }

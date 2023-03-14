@@ -17,7 +17,7 @@ namespace WeightPlateBarbellRackingCalculator.Models
         [Required]
         [Range(1, 100)]
         [Display(Name = "Weight Percentage")]
-        public double WeightPercentage { get; set; }
+        public double WeightPercentage { get; set; } = 100;
         [Range(1, 100)]
         [Display(Name = "Rounding")]
         public double Rounding { get; set; } = PlatesCalculatorConstants.NO_ROUNDING;
