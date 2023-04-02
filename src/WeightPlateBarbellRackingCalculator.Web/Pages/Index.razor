@@ -75,7 +75,7 @@
     public RackPlates? RackPlates { get; set; }
 
 
-    public CalculationOptions _calculationOptions = new CalculationOptions();
+    public CalculationOptions _calculationOptions = new CalculationOptions(){ Rounding = 5.0 };
     private bool successfulValidation;
 
     private bool focusOnResults = false;
