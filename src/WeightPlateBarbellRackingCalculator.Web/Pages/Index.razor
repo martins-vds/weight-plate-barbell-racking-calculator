@@ -14,21 +14,29 @@
                              HelperText="Total weight including the weight of the bar"
                              Adornment="Adornment.End"
                              AdornmentText="@weightSymbols[0]"
-                             Min="0.0" />
+                             Min="0.0" 
+                             Clearable="true" 
+                             Step="5" />
         </MudItem>
         <MudItem xs="12" sm="4">
             <MudNumericField Label="Weight Percentage"
                              For="@(() => _calculationOptions.WeightPercentage)"
                              @bind-Value="_calculationOptions.WeightPercentage"
                              Adornment="Adornment.End"
-                             AdornmentIcon="@Icons.Material.Filled.Percent" />
+                             AdornmentIcon="@Icons.Material.Filled.Percent" 
+                             Min="1"
+                             Clearable="true" 
+                             Step="5"/>
         </MudItem>
         <MudItem xs="12" sm="4">
             <MudNumericField Label="Bar Weight"
                              For="@(() => _calculationOptions.BarWeight)"
                              @bind-Value="_calculationOptions.BarWeight"
                              Adornment="Adornment.End"
-                             AdornmentText="@weightSymbols[0]" />
+                             AdornmentText="@weightSymbols[0]"
+                             Min="0.0"
+                             Clearable="true" 
+                             Step="5" />
         </MudItem>
         <MudItem xs="12">
             <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" ButtonType="ButtonType.Submit">Calculate Plates</MudButton>
